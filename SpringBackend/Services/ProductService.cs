@@ -68,5 +68,21 @@ namespace SpringBackend.Services
 
             return _mapper.Map<IEnumerable<ProductReadDto>>(products);
         }
+
+        public async Task<IEnumerable<ProductReadDto>> SearchProductsAsync(ProductSearchDto filter)
+        {
+            _logger.LogInformation("--> Search products....");
+            IEnumerable<Product> products;
+            if (filter == null)
+            {
+                products = await _productRepo.GetAllProductsAsync();
+            }
+            else
+            {
+                products = await _productRepo.SearchProductsAsync(filter);
+            }
+
+            return _mapper.Map<IEnumerable<ProductReadDto>>(products);
+        }
     }
 }

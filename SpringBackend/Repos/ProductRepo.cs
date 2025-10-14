@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using SpringBackend.Data;
+using SpringBackend.Dtos;
 using SpringBackend.Models;
 
 namespace SpringBackend.Repos
@@ -57,9 +58,42 @@ namespace SpringBackend.Repos
             return product;
         }
 
+        public async Task<IEnumerable<Product>> SearchProductsAsync(ProductSearchDto filter)
+        {
+            var query = _context.products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter.Name))
+                query = query.Where(p => p.Name.Contains(filter.Name));
+
+            if (!string.IsNullOrWhiteSpace(filter.Category))
+                query = query.Where(p => p.Category == filter.Category);
+
+            if (!string.IsNullOrWhiteSpace(filter.Brand))
+                query = query.Where(p => p.Brand == filter.Brand);
+
+            if (filter.MinPrice.HasValue)
+                query = query.Where(p => p.Price >= filter.MinPrice.Value);
+
+            if (filter.MaxPrice.HasValue)
+                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+
+            if (filter.MinStock.HasValue)
+                query = query.Where(p => p.StockQuantity >= filter.MinStock.Value);
+
+            if (filter.MaxStock.HasValue)
+                query = query.Where(p => p.StockQuantity <= filter.MaxStock.Value);
+
+            query = query.OrderBy(p => p.Name);
+
+            var products = await query.ToListAsync();
+
+            return products;
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return await this._context.SaveChangesAsync() >= 0;
         }
+
     }
 }

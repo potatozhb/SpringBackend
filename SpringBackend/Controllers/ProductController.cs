@@ -67,5 +67,15 @@ namespace SpringBackend.Controllers
             }
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] ProductSearchDto filter)
+        {
+            var products = await _productService.SearchProductsAsync(filter);
+
+            if (products == null || !products.Any())
+                return NotFound("No products found matching the search criteria.");
+
+            return Ok(products);
+        }
     }
 }

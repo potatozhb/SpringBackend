@@ -8,5 +8,7 @@ namespace SpringBackend.Services
         Task<IEnumerable<ProductReadDto>> GetProductsAsync(int? start = null, int? end = null);
         Task<ProductReadDto> GetProductAsync(string id);
         Task<ProductReadResponse> CreateProductAsync(ProductCreateDto productCreateDto);
+
+        Task<IEnumerable<ProductReadDto>> SearchProductsAsync(ProductSearchDto filter);
     }
 }
