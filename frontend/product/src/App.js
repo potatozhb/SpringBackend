@@ -1,23 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { searchProducts } from "./api";
 
 function App() {
+  const [name, setName] = useState("");
+  const [products, setProducts] = useState([]);
+  const handleSearch = async () => {
+    try{
+      const result = await searchProducts({name});
+      setProducts(result);
+    }
+    catch(err){
+      console.error(err);
+      alert("Failed to load products")
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Product Search</h2>
+      <input value={name} onChange={e => setName(e.target.value)} placeholder="Enter product name" />
+      <button onClick={handleSearch}>Search</button>
+
+      <ul>
+        {products.map(p => (
+          <li key={p.id}>{p.name} - ${p.price}</li>
+        ))}
+      </ul>
     </div>
   );
 }
