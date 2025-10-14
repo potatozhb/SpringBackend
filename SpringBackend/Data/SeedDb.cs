@@ -38,8 +38,8 @@ namespace SpringBackend.Data
                     {
                         Name = "product name" + i,
                         Description = "Description " + i,
-                        Category = "Category " + i,
-                        Brand = "Brand " + i,
+                        Category = "Category " + i%10,
+                        Brand = "Brand " + i%8,
                         Price = i,
                         StockQuantity = 100 * i,
                         SKU = "SKU " + i

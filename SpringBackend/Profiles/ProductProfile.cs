@@ -12,6 +12,7 @@ namespace SpringBackend.Profiles
             //S -> D
             CreateMap<Product, ProductReadDto>();
             CreateMap<ProductCreateDto, Product>();
+            CreateMap<Product, ProductReadResponse>();
         }
     }
 }

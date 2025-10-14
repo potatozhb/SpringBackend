@@ -27,7 +27,7 @@ namespace SpringBackend.Services
             return _mapper.Map<ProductReadResponse>(product);
         }
 
-        public async Task<ProductReadDto> GetProduct(string id)
+        public async Task<ProductReadDto> GetProductAsync(string id)
         {
             var bid = Guid.TryParse(id, out Guid guid);
             if (!bid)
