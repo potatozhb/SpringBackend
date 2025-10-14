@@ -35,6 +35,14 @@ namespace SpringBackend.Repos
             return await this._context.products.ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(int start, int end)
+        {
+            return await this._context.products
+            .Skip(start)
+            .Take(end - start)
+            .ToListAsync();
+        }
+
         public async Task<Product?> GetProductAsync(Guid id)
         {
             if (this._cache.TryGetValue(id, out var data) && data is Product product)
