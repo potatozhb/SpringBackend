@@ -1,0 +1,6 @@
+@SpringBackend_HostAddress = http://localhost:5248
+
+GET {{SpringBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
