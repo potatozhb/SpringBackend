@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpringBackend.Models
 {
+    [Index(nameof(Name))]
+    [Index(nameof(Category))]
+    [Index(nameof(Brand))]
+    [Index(nameof(SKU), IsUnique =true)]//SKU must be unique
     public class Product
     {
         [Key]
@@ -24,14 +30,23 @@ namespace SpringBackend.Models
         public string Brand { get; set; }
 
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         [Required]
         public double StockQuantity { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(20)]
         public string SKU { get; set; }
 
+        [NotMapped]
+        public string NameLower => Name.ToLower();
+
+        [NotMapped]
+        public string CategoryLower => Category.ToLower();
+
+        [NotMapped]
+        public string BrandLower => Brand.ToLower();
     }
 }
